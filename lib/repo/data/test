@@ -1,0 +1,132 @@
+
+var downloadUrl = "https://smart.kepco.co.kr:8443/KepcoAppDown/";
+function download(apkNm, apk){
+  $.ajax({
+	url: "https://www.e-kepco.co.kr/KepcoSPSV/appdown/appDownLog.jsp?apkNm="+apk,
+	type: "GET",
+	dataType:"jsonp",
+	success: function(data){window.location.href=downloadUrl+apkNm;}
+	,error: function(xhr) {console.log(xhr);}
+  });
+}
+function message(){
+	alert("준비중입니다.");
+}
+function tabDisplay2(position, itemCnt, class1, class2, div_handle){
+	var div_handle = false;
+	if(tabDisplay2.arguments.length <5) div_handle=true;
+	else div_handle=div_handle;
+
+	for(i=0; i<itemCnt; i++) {
+		if(i==(position-1)) {
+			document.getElementById("tab_"+(i+1)).className =  class1;
+		} else {
+			document.getElementById("tab_"+(i+1)).className = class2;
+		}
+	}
+}
+function setDisplayById(item, setValue) {
+	var item = document.getElementById(item);
+
+	if(item!=null){
+		if(setValue == true) item.style.display="";
+		else if(setValue == false) item.style.display="none";
+	}
+}
+//아이폰구분 추가20120705
+var Browser = {
+	a : navigator.userAgent.toLowerCase()
+}
+Browser = {
+	iPhone : Browser.a.indexOf('iphone') != -1,
+	iPad : Browser.a.indexOf('ipad') != -1
+}
+//하나로 합쳐서 자동다운받게 할려고 하다가..걍 나누는게 낳을꺼가틈...(기존과 동일하게)
+function androidBrowser(down, apk) {
+//  if (Browser.iPhone || Browser.iPad) {
+//	  alert("안드로이드 전용으로 아이폰/패드에서는 설치되지않습니다.");
+//  }
+//  else{
+	  download(down, apk);	
+//   }
+}
+function iosBrowser(apk) {
+//  if (Browser.iPhone || Browser.iPad) {
+	  $.ajax({
+		//url: "https://smart.kepco.co.kr:8443/KepcoSPSV/jsp/appdown/appDownLog.jsp",
+		url: "https://www.e-kepco.co.kr/KepcoSPSV/appdown/appDownLog.jsp?apkNm="+apk,
+		type: "GET",
+		dataType:"jsonp",
+		success: function(data){
+			//alert("It is iPhone browser");   ..... https://www.e-kepco.co.kr/KepcoSPSV/downFile/KepcoAppDown
+			//var url = "itms-services://?action=download-manifest&url=https://smart.kepco.co.kr:8443/KepcoAppDown/SmartKpeco.plist";
+			var url = "itms-services://?action=download-manifest&url=https://www.e-kepco.co.kr/KepcoSPSV/downFile/KepcoAppDown/SmartKpeco.plist";
+			document.location.href=url;
+		}
+		,error: function(xhr) {console.log(xhr);}
+	});
+// }
+//  else{
+//		alert("아이폰/패드 전용으로 안드로이드에서는 설치되지않습니다.");
+//  }
+}
+function iosBrowserAuth(apk) {
+//  if (Browser.iPhone || Browser.iPad) {
+	  $.ajax({
+		//url: "https://smart.kepco.co.kr:8443/KepcoSPSV/jsp/appdown/appDownLog.jsp",
+		url: "https://www.e-kepco.co.kr/KepcoSPSV/appdown/appDownLog.jsp?apkNm="+apk,
+		type: "GET",
+		dataType:"jsonp",
+		success: function(data){
+			//alert("It is iPhone browser"); ..... https://www.e-kepco.co.kr/KepcoSPSV/downFile/KepcoAppDown
+			//var url = "itms-services://?action=download-manifest&url=https://smart.kepco.co.kr:8443/KepcoAppDown/kepco_auth.plist";
+			var url = "itms-services://?action=download-manifest&url=https://www.e-kepco.co.kr/KepcoSPSV/downFile/KepcoAppDown/kepco_auth.plist";
+			document.location.href=url;
+		}
+		,error: function(xhr) {console.log(xhr);}
+	});
+// }
+// else{
+//		alert("아이폰/패드 전용으로 안드로이드에서는 설치되지않습니다.");
+//  }	 
+}
+
+function iosCons(apk) {
+//  if (Browser.iPhone || Browser.iPad) {
+	  $.ajax({
+		//url: "https://smart.kepco.co.kr:8443/KepcoSPSV/jsp/appdown/appDownLog.jsp",
+		url: "https://www.e-kepco.co.kr/KepcoSPSV/appdown/appDownLog.jsp?apkNm="+apk,
+		type: "GET",
+		dataType:"jsonp",
+		success: function(data){
+			//alert("It is iPhone browser"); ..... https://www.e-kepco.co.kr/KepcoSPSV/downFile/KepcoAppDown
+			//var url = "itms-services://?action=download-manifest&url=https://smart.kepco.co.kr:8443/KepcoAppDown/kepco_auth.plist";
+			var url = "itms-services://?action=download-manifest&url=https://www.e-kepco.co.kr/KepcoSPSV/downFile/KepcoAppDown/ConstructionSite.plist";
+			document.location.href=url;
+		}
+		,error: function(xhr) {console.log(xhr);}
+	});
+// }
+// else{
+//		alert("아이폰/패드 전용으로 안드로이드에서는 설치되지않습니다.");
+//  }	 
+}
+
+function iosBrowserTalk() {
+//  if (Browser.iPhone || Browser.iPad) {
+	var url = "itms-services://?action=download-manifest&url=https://mauth.kepco.co.kr:8552/api/download/ios_plist";
+	document.location.href=url;
+//  }
+//  else{
+//		alert("아이폰/패드 전용으로 안드로이드에서는 설치되지않습니다.");
+//  }	 
+}
+
+$(document).ready(function() {
+	if('19109496' == ""){
+	   //location.href= "/KepcoSPSV/ComLogin_login.action?connectOpt=1&app=1";
+	   document.frmAppDown.action = "/KepcoSPSV/ComLogin_adLogin.action?connectOpt=1";
+	   document.frmAppDown.method="POST";
+	   document.frmAppDown.submit();
+	}
+});
